@@ -8,7 +8,7 @@ token = s.split(" ")
 
 for tok in token:
     count = 0
-    for i in range(0, len(tok)):
+    for i in range(0, len(tok)): # 0, がいらない
         if tok[i].isalpha():
             count += 1
     sys.stdout.write(str(count))

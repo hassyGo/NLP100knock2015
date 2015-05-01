@@ -6,7 +6,7 @@ token = s.split(" ")
 candidate = [1, 5, 6, 7, 8, 9, 15, 16, 19]
 mp = {}
 
-for i in range(0, len(token)):
+for i in range(0, len(token)): # enumurate で書く インデックスと内容のペア
     if i+1 in candidate:
         mp[token[i][0]] = i+1
     else:

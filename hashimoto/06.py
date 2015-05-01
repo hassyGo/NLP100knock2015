@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+#importしろ
 def ngram(seq, n, res):
     for i in range(0, len(seq)):
         if i+n-1 < len(seq):
