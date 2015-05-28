@@ -52,6 +52,6 @@ if __name__ == "__main__":
     lines = r.readlines()
     for line in lines:
         apijson.append(json.loads(line))
-
-    imageurl = apijson[0]["query"]["pages"]["23473560"]["imageinfo"][0]["url"]
+    keynum = apijson[0]["query"]["pages"].keys()[0]
+    imageurl = apijson[0]["query"]["pages"][keynum]["imageinfo"][0]["url"]
     print imageurl
