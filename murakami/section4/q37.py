@@ -23,5 +23,7 @@ if __name__ == "__main__":
     Y = [i[1] for i in freq]
 
     plt.bar(X,Y,align="center")
-    #plt.xticks(X,[i[0] for i in freq])
+    plt.xticks(X,[unicode(i[0],"utf-8") for i in freq])
+    
+   
     plt.show()

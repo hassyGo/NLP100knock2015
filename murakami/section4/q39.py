@@ -17,13 +17,14 @@ if __name__ == "__main__":
     lists = q30.readMecab("neko.txt.mecab")
     countDic = q36.getFrequency(lists)
 
-    freq = sorted(countDic.items(), key=lambda x:x[1], reverse = True)[0:100]
+    freq = sorted(countDic.items(), key=lambda x:x[1], reverse = True)
     
     rank = range(len(freq))
     count = [i[1] for i in freq]
     
 
-    plt.xscale('log')
-    plt.yscale('log')
-    plt.plot(rank,count)
+#plt.xscale('log')
+#    plt.yscale('log')
+    plt.loglog(rank,count,"d")
+    #plt.plot(rank,count)
     plt.show()
