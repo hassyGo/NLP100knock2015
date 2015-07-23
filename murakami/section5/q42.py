@@ -14,12 +14,6 @@ import itertools
 import re
 
 
-def eraseEndPunctuation(string):
-    if len(string) <= 0 :
-        return string
-    if(re.match(u'。|、',string[-1]) != None):
-        return string[:-1]
-    return string
 
 
 if __name__ == "__main__":
@@ -29,4 +23,4 @@ if __name__ == "__main__":
     for s in sentences:
         for c in s:
             if(c.dst != -1):
-                print "%s\t%s" % (eraseEndPunctuation(c.getText()),eraseEndPunctuation(s[c.dst].getText()))
+                print "%s\t%s" % (c.getText(),s[c.dst].getText())

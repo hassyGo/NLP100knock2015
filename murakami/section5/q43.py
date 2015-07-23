@@ -20,4 +20,4 @@ if __name__ == "__main__":
         for c in s:
             if c.dst != -1:
                 if c.isIncludePos("名詞") and s[c.dst].isIncludePos("動詞"):
-                    print "%s\t%s" % (eraseEndPunctuation(c.getText()),eraseEndPunctuation(s[c.dst].getText()))
+                    print "%s\t%s" % (c.getText(),s[c.dst].getText())

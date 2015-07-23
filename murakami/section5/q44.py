@@ -19,7 +19,7 @@ def showGraph(chunkList):
     edges = []
     for c in chunkList:
         if c.dst != -1:
-            edges.append((c.getText().encode('utf-8'),eraseEndPunctuation(chunkList[c.dst].getText()).encode('utf-8')))
+            edges.append((c.getText().encode('utf-8'),chunkList[c.dst].getText().encode('utf-8')))
 
     g = pydot.graph_from_edges(edges,directed = True)
     g.write_jpeg('dot.jpg', prog='dot')
