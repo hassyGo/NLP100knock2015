@@ -32,19 +32,22 @@ if __name__ == "__main__":
     
     list = []
     
-    for s in sentences[948:949]: #[948:949]が例
+    for s in sentences: #[948:949]が例
         for c in s:
             if c.isIncludePos("動詞"):
                 verbIndex = c.getPosIndices("動詞")[0]
-                verbBase = c.morphs[verbIndex].base
+                verbBase = c.morphs[verbIndex].base #動詞を含む文節の動詞の形態素原型を取得
                 for pindex in c.srcs:
                     parChunk = s[pindex]
                     if len(parChunk.morphs) == 2:
-                        if parChunk.morphs[0].pos1 == u"サ変接続" and parChunk.morphs[1].pos == u"助詞" and parChunk.morphs[1].surface == u"を":
-                            pred = parChunk.morphs[0].surface + parChunk.morphs[1].surface + verbBase
+                        if parChunk.morphs[0].pos1 == u"サ変接続" and parChunk.morphs[1].pos == u"助詞" and parChunk.morphs[1].surface == u"を": #動詞を含む文節にかかっている文節のうち、条件をみたしているものを探す
+                            pred = parChunk.morphs[0].surface + parChunk.morphs[1].surface + verbBase #サ変接続名詞＋を＋動詞　という文字列を生成
                 
-                            parList = getParticlesFromChunk(c,s)[:-1]
-                            list.append((pred,parList))
+                            parList = getParticlesFromChunk(c,s)[:-1] #助詞のリストを取得　ただし、末尾には「を」自身が含まれているので、これを取り除く
+                            list.append((pred,parList)) #生成した文字列と、助詞リストをタプルにして、全体のリストに追加
+
+
+    #表示、出力部分はq46と一緒 使いまわしてるから関数にしてもいいかもしれない
 
     ofs = open("q47_output.txt","w")
     

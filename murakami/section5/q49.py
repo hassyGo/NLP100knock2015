@@ -30,10 +30,10 @@ from q48 import *
 
 
 
-def getArrowStringXYK(chunkList1,chunkList2,chunkK):
+def getArrowStringXYK(chunkList1,chunkList2,chunkK): #kを含む場合の適切な文字列を返す関数
     return getArrowString(chunkList1,"X","") + " | " + getArrowString(chunkList2,"Y","") + " | " + chunkK.getText()
 
-def getChunkKFromTwoIndice(indice1,indice2):
+def getChunkKFromTwoIndice(indice1,indice2): #kを含む場合に、二つのチャンクからkの位置を求める関数
     set1 = set(indice1)
     set2 = set(indice2)
     candidateK = set1 & set2
@@ -57,12 +57,12 @@ if __name__ == "__main__":
                 iIndice = [m.id for m in ilist] #chunk.idのリスト
                 jIndice = [m.id for m in jlist]
             
-                if j in iIndice: #一つ目
+                if j in iIndice: #一つ目の条件にマッチ
                     index = iIndice.index(j)
                     print getArrowString(ilist[0:index+1],"X","Y")
 
-                else: #二つ目
+                else: #二つ目の条件にマッチ
                     k_id = getChunkKFromTwoIndice(iIndice,jIndice)
                     indexi = iIndice.index(k_id) #それぞれchunkKが何番目にあるか調べる
                     indexj = jIndice.index(k_id)
-                    print getArrowStringXYK(ilist[0:indexi],jlist[0:indexj],ilist[indexi])
+                    print getArrowStringXYK(ilist[0:indexi],jlist[0:indexj],ilist[indexi]) #結果を表示

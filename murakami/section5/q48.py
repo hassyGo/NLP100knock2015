@@ -20,7 +20,7 @@ from q40 import *
 from q41 import *
 from q42 import *
 
-#あるchunkからルートに至るまでの係り受け連鎖をchunkリストで取得
+#あるchunkからルートに至るまでの係り受け連鎖をchunkリストで取得　「人間という」というチャンクインスタンスを入力すると、[ [人間という]チャンク、[ものを]チャンク、[見た]チャンク ]というチャンクリストが帰ってくる。
 def getListToRoot(chunk,sentence):
     currentChunk = chunk
     list = [currentChunk]
@@ -31,7 +31,7 @@ def getListToRoot(chunk,sentence):
 
 #stringBeginとstringEndはそれぞれリストの先頭と末尾の名詞句を置き換える文字列を設定する(空の時は置き換えない)
 #input [a,b,c,d],"X","Y"  output X -> b -> c -> Y
-def getArrowString(chunkList,stringBegin,stringEnd):
+def getArrowString(chunkList,stringBegin,stringEnd): #矢印を適切にセットした文字列を生成する。
     string = ""
     for i in range(len(chunkList)):
         if i == 0:
@@ -52,6 +52,6 @@ if __name__ == "__main__":
     for s in sentences[7:8]:
         for c in s:
             if c.isIncludePos("名詞"):
-                list = getListToRoot(c,s)
+                list = getListToRoot(c,s) #末尾までのチャンクリストを取得して、それを下の行で表示する。
                 print getArrowString(list,"","")
 

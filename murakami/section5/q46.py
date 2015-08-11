@@ -37,8 +37,10 @@ if __name__ == "__main__":
                 list.append((verbBase,parList))
 
     ofs = open("q46_output.txt","w")
+
+    #ここまでq45と全く一緒
     
     for t in list:
-        string = "%s\t%s\t%s" % (t[0]," ".join(map(lambda n:n[0], t[1])) ," ".join(map(lambda n:n[1], t[1])))
+        string = "%s\t%s\t%s" % (t[0]," ".join(map(lambda n:n[0], t[1])) ," ".join(map(lambda n:n[1], t[1]))) #表示する際に、１列目だけでなく２列目も出力するようにするだけ。
         print string
         ofs.write(string.encode('utf-8')+"\n")
