@@ -15,18 +15,18 @@ import pydot
 
 
 
-def showGraph(chunkList):
+def showGraph(chunkList): #chunkのリストを受け取って、そこからグラフを表示までやってくれる関数を作る
     edges = []
     for c in chunkList:
         if c.dst != -1:
-            edges.append((c.getText().encode('utf-8'),chunkList[c.dst].getText().encode('utf-8')))
+            edges.append((c.getText().encode('utf-8'),chunkList[c.dst].getText().encode('utf-8'))) #cがかかりもと、chunkList[c.dst]がかかり先のchunkインスタンス
 
     g = pydot.graph_from_edges(edges,directed = True)
     g.write_jpeg('dot.jpg', prog='dot')
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": #グラフを作る関数を呼ぶだけ
 
     sentences = makeSentenceListFromXml("neko.xml")
     
-    showGraph(sentences[5])
+    showGraph(sentences[5]) #６文目を表示

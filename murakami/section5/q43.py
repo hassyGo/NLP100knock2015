@@ -12,12 +12,13 @@ from q41 import *
 from q42 import *
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": #ここでも必要な部品はすべて今までのコード（主にq40,q41）で作成済みなので、それを利用する
 
-    sentences = makeSentenceListFromXml("neko.xml")
+    sentences = makeSentenceListFromXml("neko.xml") #毎度おなじみ、xmlファイルからchunkのリストのリストを作る
 
     for s in sentences:
         for c in s:
             if c.dst != -1:
-                if c.isIncludePos("名詞") and s[c.dst].isIncludePos("動詞"):
-                    print "%s\t%s" % (c.getText(),s[c.dst].getText())
+                if c.isIncludePos("名詞") and s[c.dst].isIncludePos("動詞"): #名詞が入っていてかつ、かかり先が動詞がはいっているか調べる。
+                    print "%s\t%s" % (c.getText(),s[c.dst].getText()) #条件をみたしたら、表示する。
+                    #getText()は、文節の文字列を取得する関数
