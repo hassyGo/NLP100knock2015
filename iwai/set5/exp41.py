@@ -4,7 +4,7 @@
 
 import sys
 import re
-import exp40_copy as exp40
+import exp40
 
 class Chunk:
     def __init__(self, line):
