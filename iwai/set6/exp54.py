@@ -7,7 +7,7 @@ import re
 import sys
 import exp50
 
-if __name__ == "__main__":
+def main():
     fw = open('54.txt', 'w')
     sys.stdout = fw
 
@@ -26,3 +26,7 @@ if __name__ == "__main__":
             print search3.group(1)
         
     fw.close()
+    
+if __name__ == "__main__":
+    main()
+    

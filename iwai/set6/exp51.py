@@ -7,7 +7,7 @@ import re
 import sys
 import exp50
 
-if __name__ == "__main__":
+def main():
     fw = open('51.txt', 'w')
     sys.stdout = fw
 
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     
     for line in document:
         string = re.sub('\s', '\n', line)
-        search = re.search('\w+\.', string)
+        search = re.search('(\w+\.|\w+\?|\w+!|\w+\:|\w+\;)', string)
         if search:
             print string
             print '\n'.strip()
@@ -23,3 +23,7 @@ if __name__ == "__main__":
             print string    
 
     fw.close()
+    
+if __name__ == "__main__":
+    main()
+    

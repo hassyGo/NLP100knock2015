@@ -21,7 +21,7 @@ def s_parser(tree_split):
     
     tree_split = tree_split.split( )
     root = [[]]
-    #test = []
+    test = []
 
 
     for item in tree_split:
@@ -32,16 +32,16 @@ def s_parser(tree_split):
             root.append(leaf)
         if search1 or search2:
             leaf.append(item)
-            #if len(leaf) == 2:
-                #if 'NP' in leaf:
-                    #print 'left in NP: ', root[-1][1]
+            if len(leaf) == 2:
+                if 'NP' in leaf:
+                    print 'left in NP: ', root[-1][1]
         if item == ')':
             root[-2].append(root.pop())
-            #if 'NP' in root[-1]:
-                #print 'left in NP(pattern B): ', root[-1]
-                #test = list(root[-1])
-                #cnt += 1
-                #print_line_lst = print_line(test)
+            if 'NP' in root[-1]:
+                print 'left in NP(pattern B): ', root[-1]
+                test = list(root[-1])
+                cnt += 1
+                print_line_lst = print_line(test)
                 
         """
         if test:

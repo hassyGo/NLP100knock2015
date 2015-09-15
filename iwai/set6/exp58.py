@@ -32,54 +32,54 @@ def main():
     collapsed_dependencies = exp57.make_collapsed_dependencies(document)
 
     flag = 0
-    nsubj_pairs = []
-    dobj_pairs = []
     
-    for line in collapsed_dependencies[2]:
-    #for line in collapsed_dependencies:
-        search_nsubj = re.search('<dep type="nsubj">', line)
-        search_dobj = re.search('<dep type="dobj">', line)
-        
-        if search_nsubj:
-            flag = 1
-            nsubj_pair = []
-        if search_dobj:
-            flag = 2
-            dobj_pair = []
-        if line == '</dep>':
-            flag = 0
-        if flag == 1:
-            governor = exp57.search_governor(line)
-            dependent = exp57.search_dependent(line)
+    for line in collapsed_dependencies:
+        nsubj_pairs = []
+        dobj_pairs = []
+        for item in line:
+            search_nsubj = re.search('<dep type="nsubj">', item)
+            search_dobj = re.search('<dep type="dobj">', item)
+            #print item
+            if search_nsubj:
+                flag = 1
+                nsubj_pair = []
+            if search_dobj:
+                flag = 2
+                dobj_pair = []
+            if item == '</dep>':
+                flag = 0
 
-            if governor != None:
-                nsubj_pair.append(governor)
-            if dependent != None:
-                nsubj_pair.append(dependent)
-                if len(nsubj_pair) == 2:
-                    nsubj_pairs.append(nsubj_pair)
+            if flag == 1:
+                governor = exp57.search_governor(item) 
+                dependent = exp57.search_dependent(item)
+
+                if governor != None:
+                    nsubj_pair.append(governor)
+                if dependent != None:
+                    nsubj_pair.append(dependent)
+
+                    if len(nsubj_pair) == 2:
+                        nsubj_pairs.append(nsubj_pair)
             
-        if flag == 2:
-            governor = exp57.search_governor(line)
-            dependent = exp57.search_dependent(line)
+            if flag == 2:
+                governor = exp57.search_governor(item) 
+                dependent = exp57.search_dependent(item)
 
-            if governor != None:
-                dobj_pair.append(governor)
-            if dependent != None:
-                dobj_pair.append(dependent)
-                if len(dobj_pair) == 2:
-                    dobj_pairs.append(dobj_pair)
-            
-    sentences = make_sentence(nsubj_pairs,dobj_pairs)
-    #print sentences
-    
-    for sentence in sentences:
-         if len(sentence) == 2:
-             print sentence[1][1], sentence[1][0], sentence[0]
-             
-    fw.close()
+                if governor != None:
+                    dobj_pair.append(governor)
+                if dependent != None:
+                    dobj_pair.append(dependent)
 
-    
+                    if len(dobj_pair) == 2:
+                        dobj_pairs.append(dobj_pair)
+
+        sentences = make_sentence(nsubj_pairs, dobj_pairs)
+        #print sentences
+
+        for sentence in sentences:
+            if len(sentence) == 2:
+                print sentence[1][1], sentence[1][0], sentence[0]
+                
 if __name__ == "__main__":
     main()
 

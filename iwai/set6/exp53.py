@@ -7,16 +7,20 @@ import re
 import sys
 import exp50
 
-if __name__ == "__main__":   
+def main():
     fw = open('53.txt', 'w')
     sys.stdout = fw
     
     document = exp50.read('50.txt.xml')
     
     for line in document:
-        search = re.search('<word>(\w+)</word>', line)
+        search = re.search('<word>(.+)</word>', line)
 
         if search:
             print search.group(1)
 
     fw.close()
+    
+if __name__ == "__main__":   
+    main()
+    

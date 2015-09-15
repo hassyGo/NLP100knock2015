@@ -17,16 +17,19 @@ def read(filename):
     
     return lst
 
-if __name__ == "__main__":
+def main():
     fw = open('50.txt', 'w')
     sys.stdout = fw
 
     document = read('nlp.txt')
 
     for line in document:
-        search = re.search('\.\s([A-Z])', line)
+        search = re.search('(\.|\!|\?|\:|\;)\s([A-Z])', line)
         if search:
-            print re.sub('\.\s[A-Z]', '.\n'+search.group(1), line)
-    
-    #f.close()
+            print re.sub('(\.|\!|\?|\:|\;)\s[A-Z]', search.group(1)+'\n'+search.group(2), line)
+
     fw.close()
+    
+if __name__ == "__main__":
+    main()
+    

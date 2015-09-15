@@ -8,7 +8,7 @@ import sys
 import nltk
 import exp50
 
-if __name__ == "__main__":
+def main():
     fw = open('52.txt', 'w')
     sys.stdout = fw
     stemmer = nltk.PorterStemmer()
@@ -19,3 +19,7 @@ if __name__ == "__main__":
         print line, '\t', stemmer.stem(line)
 
     fw.close()
+    
+if __name__ == "__main__":
+    main()
+    
