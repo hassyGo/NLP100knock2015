@@ -3,99 +3,58 @@
 # 6-(56):共参照解析
 #Stanford Core NLPの共参照解析の結果に基づき，文中の参照表現（mention）を代表参照表現（representative mention）に置換せよ．ただし，置換するときは，「代表参照表現（参照表現）」のように，元の参照表現が分かるように配慮せよ．
 
-
-#ElementTreeとitertoolを組み合わせてなんとかやってみる
-#村上さんのプログラムを参考に
-
+import xml.etree.ElementTree as ET
 import re
-import sys
 import exp50
+import sys
 
-#coreferenceの部分だけとってきたリストを作る
-def make_coreferences(document):
-    coreference = []
-    coreferences = []
-    flag = 0
-
-    for line in document:
-        if line == '<coreference>':
-            flag = 1
-        if line == '</coreference>':
-            coreference.append(line)
-            coreferences.append(coreference)
-            flag = 0
-            coreference = []
-        if flag == 1:
-            coreference.append(line)
+#coreferenceのリストを作る
+def make_coreference_list(filename):
+    tree = ET.parse(filename)
+    root = tree.getroot()
+    coreferences = root.findall('document/coreference/coreference')
 
     return coreferences
 
-#[文の番号, 単語id, representative mention(mention)]となったリストが詰まったリストを作る
-def make_mentions(coreferences):
-    word_representative = []
-    word = []
-    word_lst = []
-    flag = 0
+def make_sentence_list(filename):
+    tree = ET.parse(filename)
+    root = tree.getroot()
+    sentences = root.findall('document/sentences')
 
-    #print coreferences
-    
-    for coreference in coreferences:
-        for item in coreference:
-            representative = re.search('<mention representative="true">', item)
-            sentence = re.match('<sentence>(\w+)</sentence>', item)
-            start = re.match('<start>(\w+)</start>', item)
-            text = re.search('<text>(.+)</text>', item)
-            mention = re.match('</mention>', item)
-            coreference = re.match('</coreference>', item)   
+    sentence_list = []
 
-            if representative:
-                flag = 1
-            if mention:
-                flag = 0
-                if word_representative:
-                    word.append(''.join(word_representative))
-                    word_representative = []
-            if flag == 1:
-                rep_text = re.search('<text>(.+)</text>', item)
-                if text:
-                    word_representative.append('(')
-                    word_representative.append(rep_text.group(1))
-                    word_representative.append(')')
-                
-    return word
-          
+    for sentence in sentences:
+       for item in  sentence.findall('sentence'):
+           sentence_list.append([word.text for word in item.findall('tokens/token/word')])
+    
+    return sentence_list
 
-        
-#1文を1リストに変換してsplitして単語レベルに分割したリストにしておく
-def make_sentence(filename):
-    filename = exp50.read('50.txt')
-    lst = []
-    
-    for line in filename:
-        line = line.split()
-        lst.append(line)
 
-    return lst
-        
-    
-    
-def main(): 
+
+def main():
     fw = open('56.txt', 'w')
     sys.stdout = fw
-
-    coreferences = []
-    filename = []
-    flag = 0
     
-    document = exp50.read('nlp_lined_rmHeader.txt.xml')
-    sentence_list = make_sentence(filename)
-    #print sentence_list
-    coreferences = make_coreferences(document)
-    mention_list = make_mentions(coreferences)
-    print mention_list
-
+    sentences = make_sentence_list('nlp_lined_rmHeader.txt.xml')
+    coreference_list = make_coreference_list('nlp_lined_rmHeader.txt.xml')
     
+    for coreference in coreference_list:
+        mentions = coreference.findall('mention')
+        for mention in mentions:
+            if mention.attrib.get('representative') == 'true':
+                rep = mention.find('text').text
+            else:
+                sentence_id = int(mention.find('sentence').text)-1
+                start_id = int(mention.find('start').text)-1
+                end_id = int(mention.find('end').text)-2
+
+                sentences[sentence_id][start_id] = rep + '(' + sentences[sentence_id][start_id]
+                sentences[sentence_id][end_id] = sentences[sentence_id][end_id] + ')'
+                
+    for sentence in sentences:
+        print ' '.join(sentence)
+
     fw.close()
-   
-if __name__ == "__main__":
+        
+if __name__ == '__main__':
     main()
