@@ -8,16 +8,8 @@ import sys
 import exp50
 
 
-def print_line(test):
-    keep = []
-    pop = test.pop()
-    if type(pop) == list:
-        print 'popの要素: ', pop[-1]
-        keep.append(pop[-1])
-        
-    return keep
-
-def s_parser(tree_split):
+#(が来た時、新しくリスト作ってappend続けて、)が来た時はそれまでappendしたリストをpopしてひとくくりにする
+def make_parse_list(tree_split):
     
     tree_split = tree_split.split( )
     root = [[]]
@@ -32,34 +24,19 @@ def s_parser(tree_split):
             root.append(leaf)
         if search1 or search2:
             leaf.append(item)
-            #if len(leaf) == 2:
-                #if 'NP' in leaf:
-                    #print 'left in NP: ', root[-1][1]
         if item == ')':
             root[-2].append(root.pop())
-            #if 'NP' in root[-1]:
-                #print 'left in NP(pattern B): ', root[-1]
-                #test = list(root[-1])
-                #cnt += 1
-                #print_line_lst = print_line(test)
-                
-        """
-        if test:
-            pop = test.pop()
-            print 'pop: ', pop
-            if type(pop) == list:
-                print 'popの要素: ', pop[-1]
-                keep.append(pop[-1])
-        """     
+
     return root
 
-            
-def parse_tree_split(parse_tree):
+#(の後ろにスペースを入れて¥sでsplitできるようにする            
+def add_space(parse_tree):
     parse_tree = re.sub('\(', '( ', parse_tree)
     parse_tree = re.sub('\)', ' )', parse_tree)
 
     return  parse_tree
-        
+
+#S式をとってくる
 def s_list(document):
     lst = []
     parse = []
@@ -73,19 +50,55 @@ def s_list(document):
             parse = []
             
     return lst
+
+#npタグのやつだけ取り出す
+def make_np_list(lst):
+    if isinstance(lst, list):
+        np = []
+        for item in lst:
+            if isinstance(item, list):
+                #print 'item:', item
+                np += make_np_list(item)
+            else:
+                if item == 'NP':
+                    np.append(lst)
+                    #print 'NP:', np
+                    
+        return np
+
+
+def extract_np(item):
+    lst = []
+    for i in item:
+        if isinstance(i, list):
+            #print 'iの要素:', i
+            if isinstance(i[1], list):
+                lst += extract_np(i)
+            else:
+                #print 'lst.append:', i[1] 
+                lst.append(i[1])
+    
+    return lst
+        
     
 def main():
-    fw = open('59.txt', 'w')
+    fw = open('copy.txt', 'w')
     sys.stdout = fw
 
     document = exp50.read('50.txt.xml')
     parse_trees = s_list(document)
 
     for parse_tree in  parse_trees[1]:
-        tree_split = parse_tree_split(parse_tree)
-        #print tree_split
-        parser = s_parser(tree_split)
-        print parser
+        add_space_list = add_space(parse_tree)
+        s = make_parse_list(add_space_list)
+        np = make_np_list(s)
+
+        for item in np:
+            #print item
+            np_word = extract_np(item)
+            print ' '.join(np_word)
+            
+        #print np_word
         
     fw.close()
     
