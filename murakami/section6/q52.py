@@ -17,5 +17,5 @@ if __name__ == "__main__":
         for sentence in sentences:
             words = sentence.split(" ")
             for word in words:
-                print word,stem(word)
+                print "%s\t%s" % (word,stem(word))
             print ""

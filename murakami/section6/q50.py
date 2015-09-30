@@ -13,7 +13,7 @@ def splitSentences(line):#一行分の文章を文単位に分割する
     sentences = []
     string = line
     while True:
-        a = re.search('[.;:?!]\s[A-Z]',string)
+        a = re.search('[.;:?!]\s[A-Z]',string)#後方参照でもっとキレイに書けるよ
         if a == None:
             break
         else:

@@ -9,6 +9,8 @@
 from q53 import *
 import re
 
+#nltkを使え
+
 def getSubtreeString(dic,wordlist,subroot):
     strings = []
     visited = [subroot]
@@ -41,17 +43,18 @@ def lispParser(lisp):
         dic[str(count)] = []
         count += 1
 
-#print string
+    print string
 
     while True:
         b = re.search(r'\([^\(\)]*\)',string)
-        if b == None:break
+        if b == None:
+            break
         words = filter(lambda w: len(w) > 0, re.split(r'[\s\(\)]', b.group()))
         dic[words[0]].extend(words[1:])
         string = string[0:b.start()] + words[0] + string[b.end():]
-#print string
+        print string
 
-#print dic
+    print dic
 
     #ここから深さ優先探索
     visited = ["0"]

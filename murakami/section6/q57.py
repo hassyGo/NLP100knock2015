@@ -29,6 +29,11 @@ if __name__ == "__main__":
                         dependent = "%s(%s,%s)" % (dep.find("dependent").text,sentenceId,dep.find("dependent").get("idx"))
 
                         edges.append((gov,dependent))
+#graph = pydot.Doc(graph_type='')
+#graph.add_edge(edge)
+#graph.write_png("aaa.png")
+
+#StanfordCoreNLPではtodotformat()として、出力をdot言語にできる
 
     g = pydot.graph_from_edges(edges,directed=True)
     g.write_jpeg("dot.jpg",prog = "dot")

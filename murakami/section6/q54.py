@@ -18,4 +18,4 @@ if __name__ == "__main__":
         lemma = token.find("lemma").text
         pos = token.find("POS").text
 
-        print "%s\t%s\t%s" % (word,lemma,pos)
+        print "{}\t{}\t{}".format(word,lemma,pos)
