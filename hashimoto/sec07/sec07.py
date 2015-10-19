@@ -110,17 +110,18 @@ if __name__ == '__main__':
         trainingData.append(instance)
     f.close()
 
-    ##train a logistic regression model
+    ##train a logistic regression model by SGD
     classifier = LogisticRegression(featureIndex)
     epochNum = 50
     learningRate = 1.0
     for i in range(epochNum):
         random.shuffle(trainingData)
 
+        ##SGD
         for instance in trainingData:
             classifier.update(instance, learningRate)
 
-        #classify the training data
+        ##classify the training data based on the current model
         numCorrect = 0.0
         for instance in trainingData:
             if classifier.classify(instance):
