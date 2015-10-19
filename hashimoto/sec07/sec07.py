@@ -94,10 +94,8 @@ if __name__ == '__main__':
     featureIndex = 0
     for line in f:
         fields = line.rstrip().split()
-        if int(fields[0]) == 1:
-            instance = Instance(1)
-        else:
-            instance = Instance(0)
+        ##convert labels to 0 or 1
+        instance = Instance((int(fields[0])+1)/2)
 
         ##assign unigram features for each training data
         for i in range(1, len(fields)):
