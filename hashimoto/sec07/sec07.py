@@ -108,6 +108,7 @@ if __name__ == '__main__':
                 featureIndex += 1
             instance.features.append(unigram[fields[i]])
         trainingData.append(instance)
+    f.close()
 
     ##train a logistic regression model
     classifier = LogisticRegression(featureIndex)
