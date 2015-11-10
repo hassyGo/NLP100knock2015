@@ -20,6 +20,8 @@ class LearnData:
     def show(self):
         print self.label,self.feature
 
+
+
 #ファイルに出てくる単語のうち、出現頻度が10以上である単語のリストを取得する関数
 def makeWordlist(filename,stopwordList):
     print "making wordlist from '" + filename + "'"
@@ -34,7 +36,7 @@ def makeWordlist(filename,stopwordList):
 
     wordlist = []
     for word,cnt in counter.most_common():
-        if cnt >= 10 and (word in stopwordList) == False:
+        if cnt >= 2 and (word in stopwordList) == False:
             #print word,cnt
             wordlist.append(word)
     return wordlist
