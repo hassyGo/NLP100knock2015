@@ -91,6 +91,7 @@ if __name__ == '__main__':
     f = open("./sentiment.txt")
     trainingData = []
     unigram = {}
+    vocab = []
     featureIndex = 0
     for line in f:
         fields = line.rstrip().split()
@@ -102,6 +103,7 @@ if __name__ == '__main__':
             if isStopWord(stopList, fields[i]):
                 continue
             if not unigram.has_key(fields[i]):
+                vocab.append(fields[i])
                 unigram[fields[i]] = featureIndex
                 featureIndex += 1
             instance.features.append(unigram[fields[i]])
@@ -110,8 +112,9 @@ if __name__ == '__main__':
 
     ##train a logistic regression model by SGD
     classifier = LogisticRegression(featureIndex)
-    epochNum = 50
+    epochNum = 20
     learningRate = 1.0
+    trainingDataOrig = trainingData
     for i in range(epochNum):
         random.shuffle(trainingData)
 
@@ -126,3 +129,24 @@ if __name__ == '__main__':
                 numCorrect += 1
         print "Epoch", i+1, ":", 100*numCorrect/len(trainingData), "%"
         learningRate *= 0.999
+
+    weightTmp = classifier.weights
+
+    ##ranking of weights
+    for i in range(10):
+        maxIndex = weightTmp.index(max(weightTmp))
+        print weightTmp[maxIndex], vocab[maxIndex]
+        weightTmp[maxIndex] = 0.0
+
+    for i in range(10):
+        minIndex = weightTmp.index(min(weightTmp))
+        print weightTmp[minIndex], vocab[minIndex]
+        weightTmp[minIndex] = 0.0
+
+    f = open("output.txt", "w")
+
+    for instance in trainingDataOrig:
+        res = ""+str(instance.label)+"\t"+str(classifier.getLabel(instance))+"\t"+str(classifier.calcScore(instance))+"\n"
+        f.write(res)
+
+    f.close()
